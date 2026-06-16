@@ -265,3 +265,208 @@ class file {
     }
 }
 ```
+
+# Preorder Traversal in Binary Tree
+
+## Definition
+
+Preorder Traversal follows the order:
+
+```text
+Root → Left Subtree → Right Subtree
+```
+
+For the constructed tree:
+
+```text
+        1
+       / \
+      2   3
+     / \   \
+    4   5   6
+```
+
+The preorder traversal will be:
+
+```text
+1 2 4 5 3 6
+```
+
+---
+
+## Preorder Traversal Method
+
+```java
+public static void preorder(Node root) {
+
+    if (root == null) {
+        return;
+    }
+
+    System.out.print(root.data + " ");
+    preorder(root.left);
+    preorder(root.right);
+}
+```
+
+---
+
+## How It Works
+
+### Step 1: Check for Null
+
+```java
+if (root == null) {
+    return;
+}
+```
+
+If the current node is `null`, stop recursion and return.
+
+---
+
+### Step 2: Visit Root Node
+
+```java
+System.out.print(root.data + " ");
+```
+
+Print the current node's value before visiting its children.
+
+---
+
+### Step 3: Traverse Left Subtree
+
+```java
+preorder(root.left);
+```
+
+Recursively visit all nodes in the left subtree.
+
+---
+
+### Step 4: Traverse Right Subtree
+
+```java
+preorder(root.right);
+```
+
+Recursively visit all nodes in the right subtree.
+
+---
+
+## Dry Run
+
+### Tree
+
+```text
+        1
+       / \
+      2   3
+     / \   \
+    4   5   6
+```
+
+### Recursive Calls
+
+```text
+preorder(1)
+│
+├── print 1
+│
+├── preorder(2)
+│   │
+│   ├── print 2
+│   │
+│   ├── preorder(4)
+│   │   ├── print 4
+│   │   ├── null
+│   │   └── null
+│   │
+│   └── preorder(5)
+│       ├── print 5
+│       ├── null
+│       └── null
+│
+└── preorder(3)
+    │
+    ├── print 3
+    │
+    ├── null
+    │
+    └── preorder(6)
+        ├── print 6
+        ├── null
+        └── null
+```
+
+---
+
+## Traversal Order
+
+```text
+1 → 2 → 4 → 5 → 3 → 6
+```
+
+### Output
+
+```text
+1 2 4 5 3 6
+```
+
+---
+
+## Time Complexity
+
+### Time Complexity
+
+```text
+O(n)
+```
+
+Every node is visited exactly once.
+
+### Space Complexity
+
+```text
+O(h)
+```
+
+Where `h` is the height of the tree due to the recursive call stack.
+
+* Balanced Tree → `O(log n)`
+* Skewed Tree → `O(n)`
+
+---
+
+## Updated Main Method
+
+```java
+public static void main(String args[]) {
+    int node[] = {1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, -1, -1};
+
+    BinaryTree tree = new BinaryTree();
+    Node root = tree.buildTree(node);
+
+    tree.preorder(root);
+}
+```
+
+### Complete Output
+
+```text
+1 2 4 5 3 6
+```
+
+## Key Points
+
+1. Preorder Traversal follows **Root → Left → Right**.
+2. The root node is processed before its children.
+3. Uses recursion to visit every node.
+4. Time Complexity = **O(n)**.
+5. Commonly used for:
+
+   * Tree serialization
+   * Copying a tree
+   * Expression trees
+   * Binary tree construction problems
