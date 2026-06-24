@@ -1,0 +1,170 @@
+For your GitHub notes/repository, you can write it like this:
+
+# Binary Tree Top View in Java
+
+## Problem Statement
+
+Print the **Top View** of a Binary Tree.
+
+The **Top View** contains all nodes visible when the tree is viewed from the top. For every horizontal distance (HD), only the first node encountered during level-order traversal is included.
+
+### Example
+
+```
+        1
+      /   \
+     2     3
+    / \   / \
+   4   5 6   7
+```
+
+**Top View Output:**
+
+```
+4 2 1 3 7
+```
+
+---
+
+## Approach
+
+### 1. Horizontal Distance (HD)
+
+* Root node → HD = 0
+* Left child → HD - 1
+* Right child → HD + 1
+
+### 2. Level Order Traversal (BFS)
+
+Use a Queue to traverse nodes level by level.
+
+### 3. HashMap
+
+Store the first node encountered for each horizontal distance.
+
+```java
+HashMap<Integer, Node> map = new HashMap<>();
+```
+
+If a horizontal distance is already present, do not update it because the first node is the topmost node.
+
+### 4. Track Minimum and Maximum HD
+
+Keep track of leftmost and rightmost horizontal distances.
+
+```java
+int min = 0;
+int max = 0;
+```
+
+### 5. Print Result
+
+Traverse from `min` to `max` and print nodes stored in the HashMap.
+
+---
+
+## Time Complexity
+
+| Operation          | Complexity |
+| ------------------ | ---------- |
+| BFS Traversal      | O(n)       |
+| HashMap Operations | O(1)       |
+| Printing Top View  | O(n)       |
+
+**Overall Time Complexity:** `O(n)`
+
+**Space Complexity:** `O(n)`
+
+---
+
+## Java Code
+
+```java
+import java.util.*;
+public class file {
+    static class Node {
+        int data;
+        Node left, right;
+        
+        public Node(int data){
+            this.data = data;
+            this.left = null;
+            this.right = null;
+        }
+    }
+        static class Info {
+            Node node;
+            int hd;
+            public Info(Node node, int hd){
+                this.node = node;
+                this.hd = hd; // horizontal distance
+            }
+        }
+        public static void topview(Node root){
+             // level order traversal
+            Queue<Info> q = new LinkedList<>();
+            HashMap<Integer, Node> map = new HashMap<>();
+            int min = 0, max = 0;
+            q.add(new Info(root, 0));
+            q.add(null);
+            
+            // Now check horizontally(level order traversal)
+            while(!q.isEmpty()) {
+                Info curr = q.remove();
+                if(curr == null) {
+                    if(q.isEmpty()){
+                        break;
+                    } else {
+                        q.add(null);
+                    }
+                } else{
+                
+                if(!map.containsKey(curr.hd)){ // first time my horizontal distance is occured or not check here
+                    map.put(curr.hd, curr.node);
+                }
+                if(curr.node.left != null){
+                    q.add(new Info(curr.node.left, curr.hd-1));
+                    min = Math.min(min, curr.hd-1);
+                }
+                if(curr.node.right != null){
+                    q.add(new Info(curr.node.right, curr.hd+1));
+                    max = Math.max(max, curr.hd+1);
+                }
+                }
+            }
+            for(int i= min; i<=max; i++){
+                System.out.print(map.get(i).data+" ");
+            }
+            System.out.println();
+        }
+        public static void main(String args[]){
+            Node root = new Node(1);
+            root.left = new Node(2);
+            root.right = new Node(3);
+            root.left.left = new Node(4);
+            root.left.right = new Node(5);
+            root.right.right = new Node(7);
+            root.right.left = new Node(6);
+            
+          topview(root);
+        }
+
+}
+```
+
+### Output
+
+```text
+4 2 1 3 7
+```
+
+### Key Concepts Used
+
+* Binary Tree
+* Breadth First Search (BFS)
+* Queue
+* HashMap
+* Horizontal Distance (HD)
+* Top View of Binary Tree
+
+This format looks professional for a GitHub README or DSA notes repository.
